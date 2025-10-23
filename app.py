@@ -330,8 +330,8 @@ def jobs():
             )
             
             return jsonify(job.to_dict()), 201
-        except ValueError as e:
-            return jsonify({'error': f'Invalid data: {str(e)}'}), 400
+        except ValueError:
+            return jsonify({'error': 'Invalid data format'}), 400
 
 
 @app.route('/api/jobs/<job_id>', methods=['GET', 'DELETE'])
@@ -370,6 +370,7 @@ if __name__ == '__main__':
     print("Press Ctrl+C to stop")
     
     try:
-        app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
+        # Debug mode is disabled for security - do not enable in production
+        app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
     finally:
         scheduler.stop()
